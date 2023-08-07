@@ -1,11 +1,19 @@
 # PET-Reconstruction
 This is the implementation of the **Contrastive Diffusion Model with Auxiliary
 Guidance for Coarse-to-Fine PET Reconstruction** **(early acccpeted by MICCAI 2023)**, 
-which is the **first work** that applies Diffusion to Pet Reconstruction.
+which is the **first work** that applies diffusion model to Pet Reconstruction.
 
 [//]: # (codebase: https://github.com/Janspiry/Image-Super-Resolution-via-Iterative-Refinement)
 
 ## 1. Project Overview
+Our proposed framework has two modules, i.e., a coarse prediction
+module (CPM) and an iterative refinement module (IRM). The CPM predicts
+a coarse-denoised PET image from the LPET image(use unet to make a coarse prediction), while the IRM predicts the
+residual between the coarse prediction and the SPET image iteratively(use diffusion model to predict residual). 
+To improve the correspondence between the LPET
+image and the RPET image, we adopt an auxiliary guidance strategy (b)
+at the input level(Add to both CPM and IRM unet) and a contrastive diffusion strategy (c) at the output
+level(In the loss of training).
 <p align="center">
     <img src="assets/model.svg" width="550">
 
