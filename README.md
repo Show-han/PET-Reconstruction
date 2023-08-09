@@ -1,6 +1,6 @@
 # Contrastive Diffusion Model with Auxiliary Guidance for Coarse-to-Fine PET Reconstruction
 This is the implementation of the **Contrastive Diffusion Model with Auxiliary
-Guidance for Coarse-to-Fine PET Reconstruction** **(early acccpeted by MICCAI 2023)** 🔥🔥🔥, 
+Guidance for Coarse-to-Fine PET Reconstruction** **(early acccpeted by MICCAI 2023🔥🔥🔥)**, 
 which is the **first work** that applies diffusion model to Pet Reconstruction.
 
 [//]: # (codebase: https://github.com/Janspiry/Image-Super-Resolution-via-Iterative-Refinement)
@@ -28,7 +28,7 @@ git clone https://github.com/wyhlovecpp/PET-Reconstruction.git
 cd PET-Reconstruction
 pip install -r requirements.txt
 ```
-## 3. 👻Code Structure
+## 👻3. Code Structure
 The code structure is as follows.
 ```
 ├── assets
