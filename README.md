@@ -1,11 +1,11 @@
-# PET-Reconstruction
+# Contrastive Diffusion Model with Auxiliary Guidance for Coarse-to-Fine PET Reconstruction
 This is the implementation of the **Contrastive Diffusion Model with Auxiliary
-Guidance for Coarse-to-Fine PET Reconstruction** **(early acccpeted by MICCAI 2023)**, 
+Guidance for Coarse-to-Fine PET Reconstruction** **(early acccpeted by MICCAI 2023)** 🔥🔥🔥, 
 which is the **first work** that applies diffusion model to Pet Reconstruction.
 
 [//]: # (codebase: https://github.com/Janspiry/Image-Super-Resolution-via-Iterative-Refinement)
 
-## 1. Project Overview
+## 🌿1. Project Overview
 Our proposed framework has two modules, i.e., a coarse prediction
 module (CPM) and an iterative refinement module (IRM). The CPM predicts
 a coarse-denoised PET image from the LPET image(use unet to make a coarse prediction), while the IRM predicts the
@@ -17,7 +17,7 @@ level(In the loss of training).
 <p align="center">
     <img src="assets/model.svg" width="550">
 
-## 2. Environment Setup
+## ⚙️2. Environment Setup
 The environment can be set up following the instructions below.
 
 ```
@@ -28,7 +28,7 @@ git clone https://github.com/wyhlovecpp/PET-Reconstruction.git
 cd PET-Reconstruction
 pip install -r requirements.txt
 ```
-## 3. Code Structure
+## 3. 👻Code Structure
 The code structure is as follows.
 ```
 ├── assets
@@ -55,7 +55,7 @@ The code structure is as follows.
 ├── inference.py            # inference
 └── train.py                # train
 ```
-## 4. Dataset
+## 📘4. Dataset
 We conducted most of our low-dose brain PET
 image reconstruction experiments on a public brain dataset, which is obtained
 from the Ultra-low Dose PET Imaging Challenge 2022.
@@ -71,7 +71,7 @@ evaluation. After you've prepared your 2D-slice datasets, you need to change the
             "dataroot": "C:\\Users\\Administrator\\Desktop\\deblur\\dataset\\train_mat",
         }
 ```
-## 5. Training and Inference
+## 🏃5. Training and Inference
 To train the model, you can run the following command.
 ```
 python train.py -opt config/sr_sr3_16_128.json
@@ -80,7 +80,7 @@ To inference the model, you can run the following command.
 ```
 python inference.py -opt config/sr_sr3_16_128.json
 ```
-## 6. Acknowledgement
+## 🥰6. Acknowledgement
 We would like to thank the authors of previous related projects for generously sharing their code and insights:
 - [Image-Super-Resolution-via-Iterative-Refinement(SR3)](https://github.com/Janspiry/Image-Super-Resolution-via-Iterative-Refinement#conditional-generation-with-super-resolution)
 - [Conditional Discrete Contrastive Diffusion(CDCD)](https://github.com/L-YeZhu/CDCD)
