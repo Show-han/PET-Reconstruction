@@ -194,11 +194,11 @@ class LRHRDataset(Dataset):
 
 
         if self.need_LR:
-            return {'LR': img_lpet, 'HR': img_hpet, 'SR': img_spet,
+            return {'LR': img_lpet, 'HR': img_hpet, 'SR': img_spet, 'NHR': negative_hpet,
                     'LP': img_Lpsd, 'HP': img_Hpsd, 'L3D': img_3d_l, 'H3D': img_3d_h,
                     'Index': index}
         else:
-            return {'HR': img_hpet, 'SR': img_spet, 'LP': img_Lpsd, 'HP': img_Hpsd,
+            return {'HR': img_hpet, 'SR': img_spet, 'LP': img_Lpsd, 'HP': img_Hpsd, 'NHR': negative_hpet,
                     'L3D': img_3d_l, 'H3D': img_3d_h, 'Index': index}
 
 
