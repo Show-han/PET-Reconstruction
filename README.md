@@ -4,7 +4,10 @@ Guidance for Coarse-to-Fine PET Reconstruction](https://arxiv.org/abs/2308.10157
 which is the **first work** that applies diffusion model to PET Reconstruction.
 
 [//]: # (codebase: https://github.com/Janspiry/Image-Super-Resolution-via-Iterative-Refinement)
-
+## 🔥 News
+We have shared our pre-processed datasets and final checkpoints. You can download it from the link below.
+- [Dataset](https://drive.google.com/file/d/1mkLn16WyR4FjgOK6eNYGayMrTZG1secI/view?usp=share_link)
+- [Checkpoint](https://drive.google.com/file/d/1ZAQ2LbB3X_ZM4yOSKQ0U-2si_IOvGQkx/view?usp=share_link)
 ## 🌿1. Project Overview
 Our proposed framework has two modules, i.e., a coarse prediction
 module (CPM) and an iterative refinement module (IRM). The CPM predicts
@@ -22,11 +25,11 @@ The environment can be set up following the instructions below.
 
 ```
 conda create --name diffpet python=3.8
-source activate diffpet
+conda activate diffpet
 conda install pytorch==1.8.0 torchvision==0.9.0 torchaudio==0.8.0 cudatoolkit=11.1 -c pytorch -c conda-forge
+conda install tensorboardX wandb numpy tqdm scipy SimpleITK opencv-python medpy
 git clone https://github.com/wyhlovecpp/PET-Reconstruction.git
 cd PET-Reconstruction
-pip install -r requirements.txt
 ```
 ## 👻3. Code Structure
 The code structure is as follows.

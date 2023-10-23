@@ -168,29 +168,29 @@ class LRHRDataset(Dataset):
 
         img_3d_h = make_h3D(img_hpet, self.path[index], self.len-1)
 
-        # for i in range(10):
-        #     negative_index = random.randint(0, self.num - 1)
-        #     while negative_index == int(index/128):
-        #         negative_index = random.randint(0, self.num - 1)
-        #     negative_path = os.path.join(self.path[negative_index*128])
-        #     s = np.random.normal(0, 2, 1)
-        #     j = int(s[0])
-        #     t = self.len+j-1
-        #     if t >= 0 and t <= 127:
-        #         negative_image_path = '_'.join(negative_path.split('_')[:-1]) + '_' + str(t) + '.mat'
-        #         negative_image = io.loadmat(negative_image_path)['img']
-        #         negative_image = negative_image[:, 128:256, :]
-        #     else:
-        #         negative_image_path = '_'.join(negative_path.split('_')[:-1]) + '_' + str(self.len-1) + '.mat'
-        #         negative_image = io.loadmat(negative_image_path)['img']
-        #         negative_image = negative_image[:, 128:256, :]
-        #     negative_image = torch.Tensor(negative_image)
-        #     if i == 0:
-        #         # negative_lpet = img_npet
-        #         negative_hpet = negative_image
-        #     else:
-        #         # negative_lpet = torch.cat((negative_lpet, img_npet), 1)
-        #         negative_hpet = torch.cat((negative_hpet, negative_image), 0)
+        for i in range(10):
+            negative_index = random.randint(0, self.num - 1)
+            while negative_index == int(index/128):
+                negative_index = random.randint(0, self.num - 1)
+            negative_path = os.path.join(self.path[negative_index*128])
+            s = np.random.normal(0, 2, 1)
+            j = int(s[0])
+            t = self.len+j-1
+            if t >= 0 and t <= 127:
+                negative_image_path = '_'.join(negative_path.split('_')[:-1]) + '_' + str(t) + '.mat'
+                negative_image = io.loadmat(negative_image_path)['img']
+                negative_image = negative_image[:, 128:256, :]
+            else:
+                negative_image_path = '_'.join(negative_path.split('_')[:-1]) + '_' + str(self.len-1) + '.mat'
+                negative_image = io.loadmat(negative_image_path)['img']
+                negative_image = negative_image[:, 128:256, :]
+            negative_image = torch.Tensor(negative_image)
+            if i == 0:
+                # negative_lpet = img_npet
+                negative_hpet = negative_image
+            else:
+                # negative_lpet = torch.cat((negative_lpet, img_npet), 1)
+                negative_hpet = torch.cat((negative_hpet, negative_image), 0)
 
 
         if self.need_LR:

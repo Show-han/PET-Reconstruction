@@ -7,7 +7,7 @@ import os
 import model.networks as networks
 from .base_model import BaseModel
 logger = logging.getLogger('base')
-from thop import profile
+
 
 class DDPM(BaseModel):
     def __init__(self, opt):
@@ -29,118 +29,36 @@ class DDPM(BaseModel):
         self.set_loss()
         self.set_new_noise_schedule(
             opt['model']['beta_schedule']['train'], schedule_phase='train')
-        if self.opt['phase'] == 'train':
-            self.netG.train()
-            self.netP.train()
-            self.netguide_3D_1.train()
-            self.netguide_3D_2.train()
-            self.netguide_3D_3.train()
 
-            self.netguide_spectrum_1.train()
-            self.netguide_spectrum_2.train()
-            self.netguide_spectrum_3.train()
-            # self.netguide_spectrum_4.train()
-            # find the parameters to optimize
-            if opt['model']['finetune_norm']:
-                optim_params = []
-                optim_params_P = []
-                for k, v in self.netG.named_parameters():
-                    v.requires_grad = False
-                    if k.find('transformer') >= 0:
-                        v.requires_grad = True
-                        v.data.zero_()
-                        optim_params.append(v)
-                        logger.info(
-                            'Params [{:s}] initialized to 0 and will optimize.'.format(k))
-                for k, v in self.netP.named_parameters():
-                    v.requires_grad = False
-                    if k.find('transformer') >= 0:
-                        v.requires_grad = True
-                        v.data.zero_()
-                        optim_params.append(v)
-                        logger.info(
-                            'Params [{:s}] initialized to 0 and will optimize.'.format(k))
-                for k, v in self.netguide_3D_1.named_parameters():
-                    v.requires_grad = False
-                    if k.find('transformer') >= 0:
-                        v.requires_grad = True
-                        v.data.zero_()
-                        optim_params.append(v)
-                        logger.info(
-                            'Params [{:s}] initialized to 0 and will optimize.'.format(k))
-                for k, v in self.netguide_3D_2.named_parameters():
-                    v.requires_grad = False
-                    if k.find('transformer') >= 0:
-                        v.requires_grad = True
-                        v.data.zero_()
-                        optim_params.append(v)
-                        logger.info(
-                            'Params [{:s}] initialized to 0 and will optimize.'.format(k))
-                for k, v in self.netguide_3D_3.named_parameters():
-                    v.requires_grad = False
-                    if k.find('transformer') >= 0:
-                        v.requires_grad = True
-                        v.data.zero_()
-                        optim_params.append(v)
-                        logger.info(
-                            'Params [{:s}] initialized to 0 and will optimize.'.format(k))
+        optim_params = list(self.netG.parameters())
+        optim_params_P = list(self.netP.parameters())
+        optim_params_guide_3D_1 = list(self.netguide_3D_1.parameters())
+        optim_params_guide_3D_2 = list(self.netguide_3D_2.parameters())
+        optim_params_guide_3D_3 = list(self.netguide_3D_3.parameters())
 
-                for k, v in self.netguide_spectrum_1.named_parameters():
-                    v.requires_grad = False
-                    if k.find('transformer') >= 0:
-                        v.requires_grad = True
-                        v.data.zero_()
-                        optim_params.append(v)
-                        logger.info(
-                            'Params [{:s}] initialized to 0 and will optimize.'.format(k))
-                for k, v in self.netguide_spectrum_2.named_parameters():
-                    v.requires_grad = False
-                    if k.find('transformer') >= 0:
-                        v.requires_grad = True
-                        v.data.zero_()
-                        optim_params.append(v)
-                        logger.info(
-                            'Params [{:s}] initialized to 0 and will optimize.'.format(k))
-                for k, v in self.netguide_spectrum_3.named_parameters():
-                    v.requires_grad = False
-                    if k.find('transformer') >= 0:
-                        v.requires_grad = True
-                        v.data.zero_()
-                        optim_params.append(v)
-                        logger.info(
-                            'Params [{:s}] initialized to 0 and will optimize.'.format(k))
+        optim_params_guide_spectrum_1 = list(self.netguide_spectrum_1.parameters())
+        optim_params_guide_spectrum_2 = list(self.netguide_spectrum_2.parameters())
+        optim_params_guide_spectrum_3 = list(self.netguide_spectrum_3.parameters())
+            # optim_params_guide_spectrum_4 = list(self.netguide_spectrum_4.parameters())
+        self.optG = torch.optim.Adam(
+            optim_params, lr=opt['train']["optimizer"]["lr"] , weight_decay=0.0001)
+        self.optP = torch.optim.Adam(
+            optim_params_P, lr=opt['train']["optimizer"]["lr"], weight_decay=0.0001)
+        self.optguide_3D_1 = torch.optim.Adam(
+            optim_params_guide_3D_1, lr=opt['train']["optimizer"]["lr"], weight_decay=0.0001)
+        self.optguide_3D_2 = torch.optim.Adam(
+            optim_params_guide_3D_2, lr=opt['train']["optimizer"]["lr"], weight_decay=0.0001)
+        self.optguide_3D_3 = torch.optim.Adam(
+            optim_params_guide_3D_3, lr=opt['train']["optimizer"]["lr"], weight_decay=0.0001)
 
+        self.optguide_spectrum_1 = torch.optim.Adam(
+            optim_params_guide_spectrum_1, lr=opt['train']["optimizer"]["lr"], weight_decay=0.0001)
+        self.optguide_spectrum_2 = torch.optim.Adam(
+            optim_params_guide_spectrum_2, lr=opt['train']["optimizer"]["lr"], weight_decay=0.0001)
+        self.optguide_spectrum_3 = torch.optim.Adam(
+            optim_params_guide_spectrum_3, lr=opt['train']["optimizer"]["lr"], weight_decay=0.0001)
 
-            else:
-                optim_params = list(self.netG.parameters())
-                optim_params_P = list(self.netP.parameters())
-                optim_params_guide_3D_1 = list(self.netguide_3D_1.parameters())
-                optim_params_guide_3D_2 = list(self.netguide_3D_2.parameters())
-                optim_params_guide_3D_3 = list(self.netguide_3D_3.parameters())
-
-                optim_params_guide_spectrum_1 = list(self.netguide_spectrum_1.parameters())
-                optim_params_guide_spectrum_2 = list(self.netguide_spectrum_2.parameters())
-                optim_params_guide_spectrum_3 = list(self.netguide_spectrum_3.parameters())
-                # optim_params_guide_spectrum_4 = list(self.netguide_spectrum_4.parameters())
-            self.optG = torch.optim.Adam(
-                optim_params, lr=opt['train']["optimizer"]["lr"] , weight_decay=0.0001)
-            self.optP = torch.optim.Adam(
-                optim_params_P, lr=opt['train']["optimizer"]["lr"], weight_decay=0.0001)
-            self.optguide_3D_1 = torch.optim.Adam(
-                optim_params_guide_3D_1, lr=opt['train']["optimizer"]["lr"], weight_decay=0.0001)
-            self.optguide_3D_2 = torch.optim.Adam(
-                optim_params_guide_3D_2, lr=opt['train']["optimizer"]["lr"], weight_decay=0.0001)
-            self.optguide_3D_3 = torch.optim.Adam(
-                optim_params_guide_3D_3, lr=opt['train']["optimizer"]["lr"], weight_decay=0.0001)
-
-            self.optguide_spectrum_1 = torch.optim.Adam(
-                optim_params_guide_spectrum_1, lr=opt['train']["optimizer"]["lr"], weight_decay=0.0001)
-            self.optguide_spectrum_2 = torch.optim.Adam(
-                optim_params_guide_spectrum_2, lr=opt['train']["optimizer"]["lr"], weight_decay=0.0001)
-            self.optguide_spectrum_3 = torch.optim.Adam(
-                optim_params_guide_spectrum_3, lr=opt['train']["optimizer"]["lr"], weight_decay=0.0001)
-
-            self.log_dict = OrderedDict()
+        self.log_dict = OrderedDict()
         self.load_network()
 
     def feed_data(self, data):
