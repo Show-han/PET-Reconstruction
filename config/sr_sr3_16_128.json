@@ -81,7 +81,7 @@
             },
             "val": {
                 "schedule": "linear",
-                "n_timestep": 6,
+                "n_timestep": 10,
                 "linear_start": 1e-6,
                 "linear_end": 0.5
             }
