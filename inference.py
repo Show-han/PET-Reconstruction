@@ -115,7 +115,7 @@ if __name__ == "__main__":
             print(EPETimg.shape)
             ip_psnr = psnr(IPETimg_1, SPETimg_1, data_range=1)
             cur_psnr = psnr(EPETimg_1, SPETimg_1, data_range=1)
-            cur_ssim = ssim(EPETimg, SPETimg, multi_channel=1)
+            cur_ssim = ssim(EPETimg, SPETimg, multi_channel=1, data_range=1)
             cur_nmse = nmse(EPETimg, SPETimg) ** 2
             print('IP_PSNR: {:6f} PSNR: {:6f} SSIM: {:6f} NMSE: {:6f}'.format(ip_psnr,cur_psnr, cur_ssim, cur_nmse))
             total_psnr.append(cur_psnr)
