@@ -93,7 +93,7 @@ class DDPM(BaseModel):
         # calculate residual as x_start
         self.data['IP'] = self.IP
         self.data['RS'] = self.data['HR'] - self.IP
-        l_pix = self.netG(self.data,ax_feature, fr_feature)
+        l_pix, l_cdcd = self.netG(self.data,ax_feature, fr_feature)
         # need to average in multi-gpu
         b, c, h, w = self.data['HR'].shape
         l_pix = (l_pix.sum())/int(b*c*h*w)+loss_guide
