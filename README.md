@@ -27,7 +27,8 @@ The environment can be set up following the instructions below.
 conda create --name diffpet python=3.8
 conda activate diffpet
 conda install pytorch==1.8.0 torchvision==0.9.0 torchaudio==0.8.0 cudatoolkit=11.1 -c pytorch -c conda-forge
-conda install tensorboardX wandb numpy tqdm scipy SimpleITK opencv-python medpy
+conda install tensorboardX wandb numpy tqdm SimpleITK opencv-python medpy
+pip install scipy==1.5.4
 git clone https://github.com/wyhlovecpp/PET-Reconstruction.git
 cd PET-Reconstruction
 ```
